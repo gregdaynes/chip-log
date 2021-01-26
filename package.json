@@ -12,6 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "cls-hooked": "^4.2.2",
+    "lodash.memoize": "^4.1.2",
     "pino": "^6.11.0",
     "uuid": "^8.3.2"
   },
