@@ -4,14 +4,15 @@ module.exports = {
     commonjs: true,
     es2021: true,
     node: true,
-    'jest/globals': true
+    'jest/globals': true,
   },
   extends: [
-    'standard'
+    'standard',
   ],
   parserOptions: {
-    ecmaVersion: 12
+    ecmaVersion: 12,
   },
   rules: {
-  }
+    'comma-dangle': ['error', 'always-multiline'],
+  },
 }
