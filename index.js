@@ -8,13 +8,14 @@ const {
   APP_NAMESPACE,
   LOG_VOID,
 } = require('./envars')
+const namespace = require('./namespace')
 
 module.exports = new Proxy({}, {
   get: function (target, prop, receiver) {
     switch (prop) {
       case '_pino': return coreLogger
-      case '_namespace': return _namespace
       case '_logFn': return _logFn
+      case '_namespace': return namespace
 
       // return logging function with bound level
       default:
