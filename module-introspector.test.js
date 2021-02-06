@@ -4,7 +4,7 @@ const {
   getInvoker,
   normalizeInvoker,
   invokerToModule,
-  moduleIntrospector
+  moduleIntrospector,
 } = require('./module-introspector')
 
 describe('Module Introspector', () => {
@@ -117,7 +117,7 @@ describe('Module Introspector', () => {
       const [
         actualInvokingFunction,
         actualModuleName,
-        actualLineNumber
+        actualLineNumber,
       ] = moduleIntrospector(basePath, depth)
 
       // this test is an anonymous function

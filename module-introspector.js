@@ -6,7 +6,7 @@ module.exports = {
   getInvoker,
   normalizeInvoker,
   invokerToModule,
-  moduleIntrospector
+  moduleIntrospector,
 }
 
 function initializer (basePath, depth) {
@@ -31,16 +31,23 @@ function parseBasePath (basePath) {
 }
 
 function getInvoker (depth) {
-  return new Error()
+  const stack = new Error()
     .stack
-    .split('\n')[depth]
+    .split('\n')
+
+  const entry = stack[depth]
+  const selectedEntry = (entry.includes('node_modules')) ? stack[depth - 1] : entry
+
+  const parts = selectedEntry
     .trim()
-    .replace(/at/, '')
-    .replace(/\//, '')
-    .replace(/\.js/, '')
-    .replace(/\(/, '')
-    .replace(/\)/, '')
-    .trim()
+    .replace(/(at\W|as\W|\.js|\(|\)|\[|\])/g, '')
+    .split(' ')
+
+  if (parts.length === 3) {
+    return [parts[0], parts[2]].join(' ')
+  }
+
+  return parts.join(' ')
 }
 
 function normalizeInvoker (invoker) {
@@ -52,7 +59,6 @@ function invokerToModule (invokerPath, root) {
   const [moduleName, line] = invokerPath
     .split(root)
     .reverse()[0]
-    .replace(/\//, '')
     .split(':')
     .slice(0, 2)
 
