@@ -1,7 +1,9 @@
 const { v4 } = require('uuid')
 const { createNamespace } = require('cls-hooked')
 
-module.exports = function requestContext (appNamespace = process.env.APP_NAMESPACE) {
+const APP_NAMESPACE = process.env.APP_NAMESPACE || 'APP_NAMESPACE'
+
+module.exports = function requestContext (appNamespace = APP_NAMESPACE) {
   const applicationNamespace = createNamespace(appNamespace)
 
   return function requestContext (req, res, next) {

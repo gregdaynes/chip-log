@@ -1,6 +1,6 @@
 const app = require('express')()
 const logger = require('../index')
-const requestContext = require('../middleware')
+const requestContext = require('../context-middleware')
 
 const nestedHandler = () => {
   logger.info('nested')
