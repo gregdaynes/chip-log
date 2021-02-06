@@ -1,5 +1,5 @@
 const app = require('express')()
-const logger = require('../index')
+const logger = require('../src')
 const {
   context,
   request,

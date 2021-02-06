@@ -2,10 +2,10 @@
   "name": "logger",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
-    "dev": "nodemon example-app/server.js | pino-pretty",
-    "test": "jest"
+    "dev": "APP_BASE=./example-app NODE_PATH=./src nodemon example-app/server.js | pino-pretty",
+    "test": "jest src/"
   },
   "keywords": [],
   "author": "",

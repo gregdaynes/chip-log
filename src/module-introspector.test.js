@@ -112,7 +112,7 @@ describe('Module Introspector', () => {
 
   describe('moduleIntrospector', () => {
     it('returns the invoking function, module called from and line number of call', () => {
-      const basePath = './logger'
+      const basePath = './logger/src'
       const depth = 3
       const [
         actualInvokingFunction,
