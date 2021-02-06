@@ -18,5 +18,12 @@ module.exports = function _logFn (logLevel, message, mergeObject = {}, logger = 
   const namespace = Namespace()
   const requestId = (namespace) ? namespace.get('REQUEST_ID') : null
 
-  logger.child({ module, function: fn, lineNum, requestId })[logLevel](msg, mrgObj)
+  // don't report an empty payload if there is no params passed
+  const payload = (mrgObj && Object.keys(mrgObj).length)
+    ? { payload: { ...mrgObj } }
+    : null
+
+  const info = { module, function: fn, lineNum, requestId }
+
+  logger.child(info)[logLevel](payload, msg)
 }

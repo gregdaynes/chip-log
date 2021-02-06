@@ -12,7 +12,7 @@ const nestedHandler = () => {
 const helloWorldHandler = (req, res) => {
   nestedHandler()
 
-  logger.info('finished')
+  logger.info('finished', { test: 'one' })
   res.send('Hello world')
 }
 
