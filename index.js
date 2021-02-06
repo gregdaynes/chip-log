@@ -9,30 +9,37 @@ const APP_BASE = process.env.NODE_PATH || process.cwd()
 const LOG_VOID = process.env.LOG_VOID
 const REDACT = process.env.REDEACT || 'req.body.password,req.params.password'
 
-module.exports = {
-  _logFn,
-  _namespace,
-  trace: (msg, mrg) => (_logFn.bind(null, 'trace')(msg, mrg)),
-  info: (msg, mrg) => (_logFn.bind(null, 'info')(msg, mrg)),
-  warn: (msg, mrg) => (_logFn.bind(null, 'warn')(msg, mrg)),
-  error: (msg, mrg) => (_logFn.bind(null, 'error')(msg, mrg)),
-  fatal: (msg, mrg) => (_logFn.bind(null, 'fatal')(msg, mrg)),
-  debug: (msg, mrg) => (_logFn.bind(null, 'debug')(msg, mrg))
-}
+module.exports = new Proxy({}, {
+  get: function (target, prop, receiver) {
+    switch (prop) {
+      case '_pino': return Pino
+      case '_namespace': return _namespace
+      case '_logFn': return _logFn
+
+      // return logging function with bound level
+      default:
+        return _logFn.bind(null, prop)
+    }
+  },
+})
 
 const Pino = pino({
   level: LOG_LEVEL,
   redact: REDACT.split(','),
 })
 
-function _logFn (logLevel, message, mergeObject = null, logger = Pino, introspector = moduleIntrospector.initializer, basePath = APP_BASE) {
+function _logFn (logLevel, message, mergeObject = {}, logger = Pino, introspector = moduleIntrospector.initializer, basePath = APP_BASE) {
   if (LOG_VOID) return
+
+  const [msg, mrgObj] = (typeof message !== 'string')
+    ? ['', message]
+    : [message, mergeObject]
 
   const [fn, module, lineNum] = introspector(basePath, 5)()
   const namespace = _namespace()
   const requestId = (namespace) ? namespace.get('REQUEST_ID') : null
 
-  return logger.child({ module, function: fn, lineNum, requestId })[logLevel](mergeObject, message)
+  logger.child({ module, function: fn, lineNum, requestId })[logLevel](msg, mrgObj)
 }
 
 const memoizedNamespace = memoize(cls.getNamespace)

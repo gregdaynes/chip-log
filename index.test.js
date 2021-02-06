@@ -19,15 +19,15 @@ describe('_logFn', () => {
       const logLevel = 'info'
       const logger = {
         child: jest.fn(() => ({
-          [logLevel]: jest.fn()
-        }))
+          [logLevel]: jest.fn(),
+        })),
       }
 
       const introspector = () => jest.fn(() => {
         return [
           'testFn',
           'this.test.file',
-          666
+          666,
         ]
       })
 
@@ -37,7 +37,7 @@ describe('_logFn', () => {
         function: 'testFn',
         lineNum: 666,
         module: 'this.test.file',
-        requestId
+        requestId,
       })
 
       done()
