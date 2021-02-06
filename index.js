@@ -8,6 +8,11 @@ const APP_NAMESPACE = process.env.APP_NAMESPACE || 'APP_NAMESPACE'
 const APP_BASE = process.env.NODE_PATH || process.cwd()
 const LOG_VOID = process.env.LOG_VOID
 const REDACT = process.env.REDEACT || 'req.body.password,req.params.password'
+const {
+  APP_BASE,
+  APP_NAMESPACE,
+  LOG_VOID,
+} = require('./envars')
 
 module.exports = new Proxy({}, {
   get: function (target, prop, receiver) {
