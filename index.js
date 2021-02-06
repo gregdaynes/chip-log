@@ -1,13 +1,8 @@
-const pino = require('pino')
 const cls = require('cls-hooked')
 const memoize = require('lodash.memoize')
+const coreLogger = require('./core-logger')
 const moduleIntrospector = require('./module-introspector')
 
-const LOG_LEVEL = process.env.LOG_LEVEL || 'info'
-const APP_NAMESPACE = process.env.APP_NAMESPACE || 'APP_NAMESPACE'
-const APP_BASE = process.env.NODE_PATH || process.cwd()
-const LOG_VOID = process.env.LOG_VOID
-const REDACT = process.env.REDEACT || 'req.body.password,req.params.password'
 const {
   APP_BASE,
   APP_NAMESPACE,
@@ -17,7 +12,7 @@ const {
 module.exports = new Proxy({}, {
   get: function (target, prop, receiver) {
     switch (prop) {
-      case '_pino': return Pino
+      case '_pino': return coreLogger
       case '_namespace': return _namespace
       case '_logFn': return _logFn
 
@@ -28,12 +23,7 @@ module.exports = new Proxy({}, {
   },
 })
 
-const Pino = pino({
-  level: LOG_LEVEL,
-  redact: REDACT.split(','),
-})
-
-function _logFn (logLevel, message, mergeObject = {}, logger = Pino, introspector = moduleIntrospector.initializer, basePath = APP_BASE) {
+function _logFn (logLevel, message, mergeObject = {}, logger = coreLogger, introspector = moduleIntrospector.initializer, basePath = APP_BASE) {
   if (LOG_VOID) return
 
   const [msg, mrgObj] = (typeof message !== 'string')
