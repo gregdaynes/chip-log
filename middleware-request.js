@@ -1,9 +1,10 @@
-const logger = require('./index')
+const coreLogger = require('./core-logger')
 const httpLogger = require('pino-http')
+const namespace = require('./namespace')
 
-module.exports = function requestLogger (applicationNamespace = logger._namespace()) {
+module.exports = function requestLogger (applicationNamespace = namespace()) {
   const logRequest = httpLogger({
-    logger: logger._pino,
+    logger: coreLogger,
     genReqId: () => applicationNamespace.get('REQUEST_ID'),
     reqCustomProps: function (req) {
       return {
