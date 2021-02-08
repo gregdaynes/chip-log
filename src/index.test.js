@@ -1,15 +1,16 @@
-const { _logFn, _namespace } = require('./index')
+const logFn = require('./logger')
+const namespace = require('./namespace')
 const cls = require('cls-hooked')
 
-const namespace = 'APP_NAMESPACE'
+const APP_NAMESPACE = 'APP_NAMESPACE'
 
 beforeAll(() => {
-  cls.createNamespace(namespace)
+  cls.createNamespace(APP_NAMESPACE)
 })
 
-describe('_logFn', () => {
+describe('logFn', () => {
   it('calls the parent logger through child', (done) => {
-    const appNamespace = cls.getNamespace(namespace)
+    const appNamespace = cls.getNamespace(APP_NAMESPACE)
     appNamespace.run(() => runTestWithContext())
 
     function runTestWithContext () {
@@ -31,7 +32,7 @@ describe('_logFn', () => {
         ]
       })
 
-      _logFn(logLevel, 'under test', {}, logger, introspector, 'basePath')
+      logFn(logLevel, 'under test', {}, logger, introspector, 'basePath')
 
       expect(logger.child).toHaveBeenCalledWith({
         function: 'testFn',
@@ -45,16 +46,16 @@ describe('_logFn', () => {
   })
 })
 
-describe('_namespace', () => {
+describe('namespace', () => {
   it('fetches the namespace from async hook', () => {
-    const actual = _namespace(namespace).name
+    const actual = namespace(APP_NAMESPACE).name
 
-    expect(actual).toBe(namespace)
+    expect(actual).toBe(APP_NAMESPACE)
   })
 
   it('uses memoization on multiple calls', () => {
-    const actual = _namespace(namespace)
-    const actualTwo = _namespace(namespace)
+    const actual = namespace(APP_NAMESPACE)
+    const actualTwo = namespace(APP_NAMESPACE)
 
     expect(actual).toBe(actualTwo)
   })
