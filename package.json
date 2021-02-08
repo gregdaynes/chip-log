@@ -1,5 +1,5 @@
 {
-  "name": "logger",
+  "name": "chip-log",
   "version": "1.0.0",
   "description": "",
   "main": "src/index.js",
@@ -8,9 +8,12 @@
     "release": "standard-version",
     "test": "jest src/"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "log",
+    "async hooks"
+  ],
+  "author": "Gregory Daynes",
+  "license": "MIT",
   "dependencies": {
     "cls-hooked": "^4.2.2",
     "lodash.memoize": "^4.1.2",
