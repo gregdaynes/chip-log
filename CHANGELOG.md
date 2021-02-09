@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 1.0.1 (2021-02-08)
+
+
+### Documentation
+
+* Update package.json with repo links
+* Update Readme with examples, installation
+
 ## 1.0.0 (2021-02-08)
 
 
