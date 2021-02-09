@@ -1,7 +1,10 @@
 {
   "name": "chip-log",
   "version": "1.0.0",
-  "description": "",
+  "description": "Structured logging with extended attributes",
+  "homepage": "https://github.com/gregdaynes/chip-log",
+  "bugs": "https://github.com/gregdaynes/chip-log/issues",
+  "repository": "github:gregdaynes/chip-log",
   "main": "src/index.js",
   "scripts": {
     "dev": "APP_BASE=./example-app NODE_PATH=./src nodemon example-app/server.js | pino-pretty",
