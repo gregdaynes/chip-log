@@ -36,6 +36,8 @@ function getInvoker (depth) {
     .split('\n')
 
   const entry = stack[depth]
+  if (!entry) return ''
+
   const selectedEntry = (entry.includes('node_modules')) ? stack[depth - 1] : entry
 
   const parts = selectedEntry
